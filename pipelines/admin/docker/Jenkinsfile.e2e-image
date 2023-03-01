@@ -1,0 +1,11 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Node Image') {
+            steps {
+                git(url: 'https://github.com/leoduprates/javascript-testing.git', branch: 'main')
+                sh('docker build -t node18-chrome .')
+            }
+        }
+    }
+}

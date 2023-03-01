@@ -1,0 +1,33 @@
+pipeline {
+    environment {
+        PUPPETEER_SKIP_DOWNLOAD = 'true'
+    }
+    agent {
+        docker { image 'node18-chrome:latest' }
+    }
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git(url: 'https://github.com/leoduprates/javascript-testing.git', branch: BRANCH)
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh('npm install')
+            }
+        }
+        stage('Run E2E Tests') {
+            steps {
+                sh('npm run test:frontend')
+            }
+        }
+        stage('Run Backend Tests') {
+            steps {
+                sh('npm run test:backend')
+            }
+        }
+    }
+}

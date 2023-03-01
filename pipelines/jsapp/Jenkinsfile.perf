@@ -1,0 +1,28 @@
+pipeline {
+    environment {
+        PUPPETEER_SKIP_DOWNLOAD = 'true'
+    }
+    agent {
+        docker { image 'node:latest' }
+    }
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git(url: 'https://github.com/leoduprates/javascript-testing.git', branch: BRANCH)
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh('npm install')
+            }
+        }
+        stage('Run Performance Tests') {
+            steps {
+                sh('npm run test:performance')
+            }
+        }
+    }
+}

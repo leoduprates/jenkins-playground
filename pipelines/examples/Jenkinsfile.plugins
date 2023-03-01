@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    environment {
+        COMMIT_HASH = ''
+    }
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git(url: 'https://github.com/leoduprates/javascript-testing.git', branch: BRANCH)
+                script {
+                    COMMIT_HASH = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                }
+                sh("echo $COMMIT_HASH")
+            }
+        }
+    }
+}
