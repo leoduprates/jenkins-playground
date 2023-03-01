@@ -12,7 +12,7 @@ def call(Map config = [:]) {
       stages {
           stage('Checkout') {
               steps {
-                  git(url: config.repo, branch: context.BRANCH)
+                  git(url: config.repo, branch: BRANCH)
               }
           }
           stage('Install Dependencies') {
