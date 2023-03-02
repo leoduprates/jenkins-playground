@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    triggers {
+        cron('H H(0-2) * * 1-5')
+    }
+    environment {
+        HASH_COMMIT = ''
+    }
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git(url: 'https://github.com/leoduprates/javascript-testing.git', branch: BRANCH)
+                script {
+                    HASH_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                }
+                sh("echo $HASH_COMMIT > hash_commit.txt")
+            }
+        }
+        stage('catchError') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh('npm run coverage')
+                }  
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts(artifacts: 'hash_commit.txt', followSymlinks: false)
+        }
+        success {
+            sh("echo '☺ ${currentBuild.currentResult}: Job ${env.JOB_NAME} build #${env.BUILD_NUMBER}'")
+        }
+        failure {
+            sh("echo '☹ ${currentBuild.currentResult}: Job ${env.JOB_NAME} build #${env.BUILD_NUMBER}'")
+        }
+        cleanup {
+            cleanWs(
+                    cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true
+            )
+        }
+    }
+}
