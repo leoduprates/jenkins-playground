@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                build job: 'jsapp-build'
+            }
+        }
+        stage('Test') {
+            parallel {
+                stage('E2E Tests') {
+                    steps {
+                        build job: 'jsapp-e2e-test'
+                    }
+                }
+                stage('Performance Tests') {
+                    steps {
+                        build job: 'jsapp-performance-test'
+                    }
+                }
+            }
+        }
+    }
+}
