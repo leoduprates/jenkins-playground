@@ -1,0 +1,5 @@
+@Library('shared-library') _
+jsBuild(
+    image: 'node:latest',
+    repository: 'https://github.com/leoduprates/javascript-testing.git'
+)
