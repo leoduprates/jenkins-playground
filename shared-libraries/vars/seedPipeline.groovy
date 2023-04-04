@@ -2,26 +2,37 @@ import org.jenkinsci.plugins.workflow.job.WorkflowJob
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
 
 def call(Map config = [:]) {
-    git(branch: 'main', url: 'https://github.com/leoduprates/jenkins-playground.git')
-    
-    def yaml = readYaml(file: "./pipelines.yaml")
-    
-    yaml.pipeline.each { pipeline ->
-         def pipelineScript = """
-              pipeline {
-                agent ${pipeline.agent}
-                stages {
-                  stage('Example') {
-                    steps {
-                      echo 'Hello, World!'
-                    }
-                  }
-                }
-              }
-              """
+    pipeline {
+        agent any
+        stages {
+            stage('build') {
+                steps {
+                    script {
+                        git(branch: 'main', url: 'https://github.com/leoduprates/jenkins-playground.git')
 
-        def myPipeline = createOrUpdatePipeline(pipeline.name, pipelineScript)
-        myPipeline.save()
+                        def yaml = readYaml(file: './pipelines.yaml')
+
+                        yaml.pipeline.each { pipeline ->
+                            def pipelineScript = """
+                                pipeline {
+                                agent ${pipeline.agent}
+                                    stages {
+                                      stage('Example') {
+                                        steps {
+                                          echo 'Hello, World!'
+                                        }
+                                      }
+                                    }
+                                }
+                                """
+
+                            def myPipeline = createOrUpdatePipeline(pipeline.name, pipelineScript)
+                            myPipeline.save()
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
