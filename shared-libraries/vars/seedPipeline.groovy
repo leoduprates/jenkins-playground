@@ -13,7 +13,7 @@ def call(Map config = [:]) {
                         def yaml = readYaml(file: './pipelines.yaml')
 
                         yaml.pipeline.each { pipeline ->
-                            def pipelineScript = """
+                            def pipelineScript = """\
                                 pipeline {
                                 agent ${pipeline.agent}
                                     stages {
