@@ -19,7 +19,7 @@ def call(Map config = [:]) {
                                     stages {
                                       stage('Example') {
                                         steps {
-                                          echo 'Hello, World!'
+                                          echo '${pipeline.message}'
                                         }
                                       }
                                     }
