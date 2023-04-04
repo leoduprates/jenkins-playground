@@ -1,13 +1,9 @@
 - pipeline:
     name: pipeline-build
     agent: any
-    moduleName: moduleNameA
-    moduleFolder: moduleFolderA
-    repository: repository-a
+    message: Hello World!
 
 - pipeline:
     name: pipeline-test
     agent: any
-    moduleName: moduleNameB
-    moduleFolder: moduleFolderB
-    repository: repository-b
+    message: Hocus Pocus!
