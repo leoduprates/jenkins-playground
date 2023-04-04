@@ -1,12 +1,11 @@
----
-- pipeline: pipeline-build-a
-  agent: any
-  moduleName: moduleNameA
-  moduleFolder: moduleFolderA
-  repository: repository-a
+- pipeline:
+    agent: any
+    moduleName: moduleNameA
+    moduleFolder: moduleFolderA
+    repository: repository-a
 
-- pipeline: pipeline-build-a
-  agent: any
-  moduleName: moduleNameB
-  moduleFolder: moduleFolderB
-  repository: repository-b
+- pipeline:
+    agent: any
+    moduleName: moduleNameB
+    moduleFolder: moduleFolderB
+    repository: repository-b
