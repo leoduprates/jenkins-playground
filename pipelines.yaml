@@ -1,3 +1,4 @@
+---
 - pipeline: pipeline-build-a
   agent: any
   moduleName: moduleNameA
