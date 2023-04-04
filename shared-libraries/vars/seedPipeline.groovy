@@ -14,17 +14,17 @@ def call(Map config = [:]) {
 
                         yaml.pipeline.each { pipeline ->
                             def pipelineScript = """\
-                                pipeline {
-                                agent ${pipeline.agent}
-                                    stages {
-                                      stage('Example') {
-                                        steps {
-                                          echo '${pipeline.message}'
-                                        }
-                                      }
-                                    }
-                                }
-                                """
+pipeline {
+    agent ${pipeline.agent}
+    stages {
+      stage('Example') {
+        steps {
+          echo '${pipeline.message}'
+        }
+      }
+    }
+}
+"""
 
                             def myPipeline = createOrUpdatePipeline(pipeline.name, pipelineScript)
                             myPipeline.save()
