@@ -1,10 +1,12 @@
 - pipeline:
+    name: pipeline-build
     agent: any
     moduleName: moduleNameA
     moduleFolder: moduleFolderA
     repository: repository-a
 
 - pipeline:
+    name: pipeline-test
     agent: any
     moduleName: moduleNameB
     moduleFolder: moduleFolderB
